@@ -50,10 +50,10 @@
             border: 2px solid #ff69b4;
         }
 
-            .options button:hover {
-                background: #ff69b4;
-                color: white;
-            }
+        .options button:hover {
+            background: #ff69b4;
+            color: white;
+        }
 
         button.retry {
             margin-top: 20px;
@@ -67,9 +67,9 @@
             transition: 0.3s;
         }
 
-            button.retry:hover {
-                background: #ff1493;
-            }
+        button.retry:hover {
+            background: #ff1493;
+        }
     </style>
 </head>
 <body>
@@ -92,11 +92,6 @@
             { question: "어떤 환경에서 가장 편안한가요?", options: ["혼자", "친구들과", "자연 속에서", "도시에서"] },
             { question: "스트레스를 받을 때 어떻게 하나요?", options: ["운동한다", "계획을 세운다", "휴식을 취한다", "모험을 떠난다"] },
             { question: "어떤 타입의 친구가 좋나요?", options: ["믿음직한 친구", "재미있는 친구", "배려 깊은 친구", "모험적인 친구"] },
-            { question: "가장 좋아하는 음식은?", options: ["고기", "해산물", "채소", "과일"] },
-            { question: "당신이 좋아하는 날씨는?", options: ["맑음", "비", "눈", "바람"] },
-            { question: "어떤 음악 장르를 좋아하나요?", options: ["클래식", "팝", "재즈", "힙합"] },
-            { question: "자유 시간이 생기면 무엇을 하나요?", options: ["운동", "독서", "여행", "게임"] },
-            { question: "이상적인 여행지는 어디인가요?", options: ["바다", "산", "도시", "시골"] }
         ];
 
         const animals = [
@@ -104,51 +99,53 @@
             { name: "여우", description: "지혜롭고 기민한 성격입니다. 문제 해결 능력이 뛰어납니다." },
             { name: "코알라", description: "차분하고 온순한 성격입니다. 평온한 삶을 추구합니다." },
             { name: "토끼", description: "활발하고 호기심이 많은 성격입니다. 새로운 경험을 좋아합니다." }
- ];
+        ];
 
- 현재 질문 = 0이라고 가정합니다;
- 답변을 드리겠습니다 = [];
+        let currentQuestion = 0;
+        let answers = [];
 
- 기능. 질문 표시() {
- 만약 (현재 질문 >= 질문 길이) {
- 결과 표시();
- 반환;
+        function displayQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResult();
+                return;
             }
- document.getElementById("질문-텍스트").innerText = 질문 [현재 질문].질문;
- const optionsContainer = document.getElementById("options-container");
- 옵션Container.innerHTML = "";
-
- 질문[현재 질문].옵션.각 옵션에 대해 (옵션 => {
- const 버튼 = document.createElement("버튼");
- button.innerText = 옵션;
- 버튼.온클릭 = () => 응답(옵션)을 선택합니다;
- 옵션Container.appendChild(버튼);
- });
+            
+            document.getElementById("question-text").innerText = questions[currentQuestion].question;
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+            
+            questions[currentQuestion].options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => selectAnswer(option);
+                optionsContainer.appendChild(button);
+            });
         }
 
- 기능. 답변 선택(정답.) {
- 답변.push(답변);
- 현재 질문++;
- 질문 표시();
+        function selectAnswer(answer) {
+            answers.push(answer);
+            currentQuestion++;
+            displayQuestion();
         }
 
- 기능. 결과 보기() {
- document.getElementById("퀴즈").style.display = "none";
- document.getElementById("결과").style.display = "차단";
- 선택된 동물 = 동물 [Math.floor(Math.random() * 동물 길이)];
- document.getElementById("결과 텍스트").innerText = '당신은 ${selectedAnimal.name } 입니다!`
- document.getElementById("결과 설명").내부 텍스트 = 선택된 동물.설명;
+        function showResult() {
+            document.getElementById("quiz").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            
+            const selectedAnimal = animals[Math.floor(Math.random() * animals.length)];
+            document.getElementById("result-text").innerText = `당신은 ${selectedAnimal.name} 입니다!`;
+            document.getElementById("result-description").innerText = selectedAnimal.description;
         }
 
- 기능. 재시작 퀴즈() {
- 현재 질문 = 0;
- 답변 = [];
- document.getElementById("퀴즈").style.display = "차단";
- document.getElementById("결과").style.display = "none";
- 질문 표시();
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById("quiz").style.display = "block";
+            document.getElementById("result").style.display = "none";
+            displayQuestion();
         }
 
- window.onload = displayQuestion;
- </대본>
-</몸>
-</HTML>
+        window.onload = displayQuestion;
+    </script>
+</body>
+</html>
