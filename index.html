@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -12,16 +12,13 @@
             text-align: center;
             background-color: #FFC0CB;
             margin: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
         }
 
         .container {
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
+            margin: auto;
             padding: 20px;
             background: white;
             border-radius: 20px;
@@ -53,54 +50,60 @@
             border: 2px solid #ff69b4;
         }
 
-        .options button:hover {
-            background: #ff69b4;
-            color: white;
-        }
+            .options button:hover {
+                background: #ff69b4;
+                color: white;
+            }
 
         button.retry {
             margin-top: 20px;
             padding: 12px 20px;
- 글꼴 크기: 18 px;
- 국경 radius: 15 px;
- 경계: 없음;
- 배경: #ff69b4;
- 색상: 흰색;
- 커서: 포인터;
- 전환: 0.3초;
+            font-size: 18px;
+            border-radius: 15px;
+            border: none;
+            background: #ff69b4;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
- 버튼.재시도: hover {
- 배경: #ff1493;
-        }
- </스타일.>
-</머리>
-<몸>
- <div class="container">
- <h1>🐾 동물성격 테스트 🐾</h1>
- <div id="quiz">
- <p class="question" id="question-text">질문이 여기에 표시됩니다.</p>
- <div class="options" id="options-container"></div>
- </디브>
- <div id="result" 스타일="디스플레이: 없음;">
- <h2 id="result-text">당신은 ? 입니다! 🐾</h2>
- <p id= "result-desc 설명">설명이 여기에 표시됩니다.</p>
- <버튼 클래스="retry" 온클릭="restartQuiz()">🔄 다시 하기</버튼>
- </디브>
- </디브>
+            button.retry:hover {
+                background: #ff1493;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐾 동물성격 테스트 🐾</h1>
+        <div id="quiz">
+            <p class="question" id="question-text">질문이 여기에 표시됩니다.</p>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div id="result" style="display: none;">
+            <h2 id="result-text">당신은 ? 입니다! 🐾</h2>
+            <p id="result-description">설명이 여기에 표시됩니다.</p>
+            <button class="retry" onclick="restartQuiz()">🔄 다시 하기</button>
+        </div>
+    </div>
 
- <대본>
- 질문이 계속됩니다 = [
- { question: "당신의 성격은 어떤가요?", options: ["리더형", "지략형", "온순형", "모험형"] },
- { question: "어떤 환경에서 가장 편안한가요?", options: ["혼자", "친구들과", "자연 속에서", "도시에서"] },
- { question: "스트레스를 받을 때 어떻게 하나요?", options: ["운동한다", "계획을 세운다", "휴식을 취한다", "모험을 떠난다"] }
- ];
+    <script>
+        const questions = [
+            { question: "당신의 성격은 어떤가요?", options: ["리더형", "지략형", "온순형", "모험형"] },
+            { question: "어떤 환경에서 가장 편안한가요?", options: ["혼자", "친구들과", "자연 속에서", "도시에서"] },
+            { question: "스트레스를 받을 때 어떻게 하나요?", options: ["운동한다", "계획을 세운다", "휴식을 취한다", "모험을 떠난다"] },
+            { question: "어떤 타입의 친구가 좋나요?", options: ["믿음직한 친구", "재미있는 친구", "배려 깊은 친구", "모험적인 친구"] },
+            { question: "가장 좋아하는 음식은?", options: ["고기", "해산물", "채소", "과일"] },
+            { question: "당신이 좋아하는 날씨는?", options: ["맑음", "비", "눈", "바람"] },
+            { question: "어떤 음악 장르를 좋아하나요?", options: ["클래식", "팝", "재즈", "힙합"] },
+            { question: "자유 시간이 생기면 무엇을 하나요?", options: ["운동", "독서", "여행", "게임"] },
+            { question: "이상적인 여행지는 어디인가요?", options: ["바다", "산", "도시", "시골"] }
+        ];
 
- 동물을 제한합니다 = [
- { name: "사자", description: "강력한 리더십과 결단력을 가진 성격입니다.", keywords: ["리더형", "운동한다", "도시에서"] },
- { name: "여우", description: "지혜롭고 기민한 성격입니다.", keywords: ["지략형", "계획을 세운다", "혼자"] },
- { name: "코알라", description: "차분하고 온순한 성격입니다.", keywords: ["온순형", "휴식을 취한다", "자연 속에서"] },
- { name: "토끼", description: "활발하고 호기심이 많습니다.", keywords: ["모험형", "모험을 떠난다", "친구들과"] }
+        const animals = [
+            { name: "사자", description: "강력한 리더십과 결단력을 가진 성격입니다." },
+            { name: "여우", description: "지혜롭고 기민한 성격입니다. 문제 해결 능력이 뛰어납니다." },
+            { name: "코알라", description: "차분하고 온순한 성격입니다. 평온한 삶을 추구합니다." },
+            { name: "토끼", description: "활발하고 호기심이 많은 성격입니다. 새로운 경험을 좋아합니다." }
  ];
 
  현재 질문 = 0이라고 가정합니다;
@@ -123,51 +126,29 @@
  });
         }
 
-        function selectAnswer(answer) {
-            answers.push(answer);
- <meta charset=>UTF-8">
- <meta 이름="viewport" 콘텐츠="width=장치 너비, 초기 스케일=1.0">
- <title>동물성격 테스트</title>
-                displayQuestion();
- @import url ('https://fonts.googleapis.com/css2?family=Jua&display=swap')
-                showResult();
-            }
- 폰트 패밀리: '후아', 산세리프;
- 텍스트 align: 중심;
- 배경색: #FFC0CB;
- 여백: 0;
- 폭: 100vw;
- 높이: 100vh;
- 디스플레이: 플렉스;
- 정당화 내용: 중심;
- 정렬 items: 중심;
-            document.getElementById("result-description").innerText = selectedAnimal.description;
+ 기능. 답변 선택(정답.) {
+ 답변.push(답변);
+ 현재 질문++;
+ 질문 표시();
         }
- .container {
- 너비: 90%;
- 최대 너비: 500 px;
- 패딩: 20 px;
- 배경: 흰색;
- 국경 radius: 20 px;
- box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
- 만약 (matchCount > maxMatch) {
- maxMatch = matchCount;
- 질문 {
- 글꼴 크기: 22 px;
- 마진 바닥: 20 px;
- 색상: #333;
- 배경색: 흰색;
- 패딩: 15 px;
- 국경 radius: 15 px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+ 기능. 결과 보기() {
+ document.getElementById("퀴즈").style.display = "none";
+ document.getElementById("결과").style.display = "차단";
+ 선택된 동물 = 동물 [Math.floor(Math.random() * 동물 길이)];
+ document.getElementById("결과 텍스트").innerText = '당신은 ${selectedAnimal.name } 입니다!`
+ document.getElementById("결과 설명").내부 텍스트 = 선택된 동물.설명;
+        }
+
+ 기능. 재시작 퀴즈() {
  현재 질문 = 0;
  답변 = [];
- .options 버튼 {
- 디스플레이: 차단;
- 너비: 100%;
- 패딩: 12 px;
- 여백: 10 px 0;
- 경계: 없음;
- 배경: 흰색;
+ document.getElementById("퀴즈").style.display = "차단";
+ document.getElementById("결과").style.display = "none";
+ 질문 표시();
+        }
+
+ window.onload = displayQuestion;
+ </대본>
 </몸>
 </HTML>
