@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -55,7 +55,7 @@
             color: white;
         }
 
-        button.retry {
+        button.retry, button.start {
             margin-top: 20px;
             padding: 12px 20px;
             font-size: 18px;
@@ -67,23 +67,26 @@
             transition: 0.3s;
         }
 
-        button.retry:hover {
+        button.retry:hover, button.start:hover {
             background: #ff1493;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="start-screen">
         <h1>🐾 동물성격 테스트 🐾</h1>
-        <div id="quiz">
-            <p class="question" id="question-text">질문이 여기에 표시됩니다.</p>
-            <div class="options" id="options-container"></div>
-        </div>
-        <div id="result" style="display: none;">
-            <h2 id="result-text">당신은 ? 입니다! 🐾</h2>
-            <p id="result-description">설명이 여기에 표시됩니다.</p>
-            <button class="retry" onclick="restartQuiz()">🔄 다시 하기</button>
-        </div>
+        <button class="start" onclick="startQuiz()">🚀 시작하기</button>
+    </div>
+    
+    <div class="container" id="quiz" style="display: none;">
+        <p class="question" id="question-text">질문이 여기에 표시됩니다.</p>
+        <div class="options" id="options-container"></div>
+    </div>
+    
+    <div class="container" id="result" style="display: none;">
+        <h2 id="result-text">당신은 ? 입니다! 🐾</h2>
+        <p id="result-description">설명이 여기에 표시됩니다.</p>
+        <button class="retry" onclick="restartQuiz()">🔄 다시 하기</button>
     </div>
 
     <script>
@@ -103,6 +106,12 @@
 
         let currentQuestion = 0;
         let answers = [];
+
+        function startQuiz() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("quiz").style.display = "block";
+            displayQuestion();
+        }
 
         function displayQuestion() {
             if (currentQuestion >= questions.length) {
@@ -140,12 +149,10 @@
         function restartQuiz() {
             currentQuestion = 0;
             answers = [];
-            document.getElementById("quiz").style.display = "block";
+            document.getElementById("start-screen").style.display = "block";
+            document.getElementById("quiz").style.display = "none";
             document.getElementById("result").style.display = "none";
-            displayQuestion();
         }
-
-        window.onload = displayQuestion;
     </script>
 </body>
 </html>
